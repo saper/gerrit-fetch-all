@@ -1,0 +1,7 @@
+#! /bin/sh
+REMOTE="${1-review}"
+git ls-remote "${REMOTE}" | grep /changes/ | awk '{print $2;}' | while read REF
+do
+	git fetch "${REMOTE}" "${REF}"
+	git branch `echo "${REF}" | sed 's#refs/changes/../#change/#'` FETCH_HEAD
+done

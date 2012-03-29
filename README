@@ -1,0 +1,38 @@
+A shell script to fetch all changesets from Gerrit
+
+This script allows to fetch all (open and closed)
+changesets from Gerrit. This can be useful for
+doing offline code review without access to
+the Gerit web interface, or to comparing 
+differrent submitted changesets.
+
+
+Gerrit allows you to fetch individual changes into
+the git repository like this:
+
+git fetch https://review.openstack.org/p/openstack-ci/git-review refs/changes/84/5784/2
+git checkout FETCH_HEAD
+
+This script fetches list of all "refs/changes/*" 
+references from gerrit and then downloads them.
+
+For every patchset a branch will be created called
+
+change/5784/2
+
+where 5784 is Gerrit changeset number and 2 is
+current patchset number.
+
+You can then compare changesets with a simple
+
+git diff change/5784/2 change/5784/3
+
+(if they have the same parent)
+
+You should invoke the script giving it the name
+of the git "remote" that identifies the Gerrit
+instance the you fetch from:
+
+  gerrit-fetch-all gerrit
+
+If no parameters are given, "review" is assumed default.
